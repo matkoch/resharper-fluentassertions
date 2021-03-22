@@ -10,6 +10,10 @@
 <![CDATA[
 <p>Support plugin for FluentAssertions. A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
       BDD-style unit tests.</p>
+<ul>
+  <li><a href="https://www.jetbrains.com/help/rider/Postfix_Templates.html">Postfix template</a> <code>.result</c> for easier standardization of tests</li>
+  <li><a href="https://www.jetbrains.com/help/rider/Using_Live_Templates.html">Live template</a> <code>should</code> to introduce a new assertion for either <code>result</code> or the last asserted expression</li>
+</ul>
 ]]>
   </description>
 
