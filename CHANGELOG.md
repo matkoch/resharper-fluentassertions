@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## 2021.1.0
 - Added support for ReSharper and Rider 2021.1
+- Add `testee` postfix template
 
 ## 2020.3.0
 - Initial version

@@ -7,5 +7,5 @@
 
 ## Features
 
-- [Postfix template](https://www.jetbrains.com/help/rider/Postfix_Templates.html) `.result` for easier standardization of tests
+- [Postfix templates](https://www.jetbrains.com/help/rider/Postfix_Templates.html) `.result` and `.testee` for easier standardization of tests
 - [Live template](https://www.jetbrains.com/help/rider/Using_Live_Templates.html) `should` to introduce a new assertion for either `result` or the last asserted expression
