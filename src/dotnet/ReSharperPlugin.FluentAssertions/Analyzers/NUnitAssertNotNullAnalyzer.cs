@@ -23,9 +23,10 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
                 return;
             }
 
-            var methodIdentifier = element.GetSolution().GetComponent<ITestingFrameworkScanner>();
+            var testingFrameworkScanner = element.GetSolution().GetComponent<ITestingFrameworkScanner>();
 
-            if (!methodIdentifier.IsNUnit(references))
+            if (!testingFrameworkScanner.HasNUnit(references) ||
+                !testingFrameworkScanner.HasFluentAssertion(references))
             {
                 return;
             }
