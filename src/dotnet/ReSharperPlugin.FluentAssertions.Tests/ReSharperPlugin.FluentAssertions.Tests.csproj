@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="JetBrains.ReSharper.SDK.Tests" Version="$(SdkVersion)" />
+    <PackageReference Include="Moq.AutoMock" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ReSharperPlugin.FluentAssertions\ReSharperPlugin.FluentAssertions.csproj" />
+    <ProjectReference Include="..\ReSharperPlugin.FluentAssertions\ReSharperPlugin.FluentAssertions.Rider.csproj" />
   </ItemGroup>
 
   <ItemGroup>
