@@ -6,6 +6,6 @@ namespace ReSharperPlugin.FluentAssertions.Helpers
     public interface ITestingFrameworkScanner
     {
         bool HasNUnit(IEnumerable<IPsiModuleReference> references);
-        bool HasFluentAssertion(IEnumerable<IPsiModuleReference> references);
+        bool HasFluentAssertions(IEnumerable<IPsiModuleReference> references);
     }
 }

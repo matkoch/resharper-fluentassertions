@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using JetBrains.ReSharper.Psi.Modules;
@@ -57,7 +56,7 @@ namespace ReSharperPlugin.FluentAssertions.Tests
             var service = mocker.CreateInstance<TestingFrameworkScanner>();
 
             // Act
-            var result = service.HasFluentAssertion(new List<IPsiModuleReference>
+            var result = service.HasFluentAssertions(new List<IPsiModuleReference>
             {
                 new PsiModuleReference(mocker.GetMock<IPsiModule>().Object)
             });
@@ -76,7 +75,7 @@ namespace ReSharperPlugin.FluentAssertions.Tests
             var service = mocker.CreateInstance<TestingFrameworkScanner>();
 
             // Act
-            var result = service.HasFluentAssertion(new List<IPsiModuleReference>
+            var result = service.HasFluentAssertions(new List<IPsiModuleReference>
             {
                 new PsiModuleReference(mocker.GetMock<IPsiModule>().Object)
             });
