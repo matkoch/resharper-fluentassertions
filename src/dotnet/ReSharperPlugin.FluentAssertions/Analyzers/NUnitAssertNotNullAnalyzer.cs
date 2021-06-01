@@ -26,7 +26,7 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
             var testingFrameworkScanner = element.GetSolution().GetComponent<ITestingFrameworkScanner>();
 
             if (!testingFrameworkScanner.HasNUnit(references) ||
-                !testingFrameworkScanner.HasFluentAssertion(references))
+                !testingFrameworkScanner.HasFluentAssertions(references))
             {
                 return;
             }
