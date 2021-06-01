@@ -8,7 +8,6 @@ using ReSharperPlugin.FluentAssertions.Highlightings;
 
 namespace ReSharperPlugin.FluentAssertions.Tests
 {
-    [TestNet50("NUnit/3.12.0")]
     public class NUnitAssertNotNullHighlightingTests : CSharpHighlightingTestBase
     {
         protected override string RelativeTestDataPath => nameof(NUnitAssertNotNullHighlightingTests);
@@ -21,10 +20,23 @@ namespace ReSharperPlugin.FluentAssertions.Tests
             return highlighting is NUnitAssertNotNullHighlighting;
         }
 
+        [TestNet50("NUnit/3.12.0", "FluentAssertions/5.10.3")]
         [TestCase("PositiveCase")]
-        public void ShouldDetectHighlighting(string testName)=> DoOneTest(testName);
+        public void ShouldDetectHighlightingWhenProjectHasReferenceToNUnitAndFluentAssertions(string testName) =>
+            DoOneTest(testName);
 
+        [TestCase("PositiveCaseWithoutReferences")]
         [TestCase("NegativeCase")]
-        public void ShouldNotBeDetectHighlighting(string testName)=> DoOneTest(testName);
+        public void ShouldNotBeDetectHighlighting(string testName) => DoOneTest(testName);
+
+        [TestNet50("FluentAssertions/5.10.3")]
+        [TestCase("PositiveCaseWithoutReferences")]
+        public void ShouldNotBeDetectHighlightingWhenProjectHasNoReferenceToNUnit(string testName) =>
+            DoOneTest(testName);
+
+        [TestNet50("NUnit/3.12.0")]
+        [TestCase("PositiveCaseWithoutReferences")]
+        public void ShouldNotBeDetectHighlightingWhenProjectHasNoReferenceToFluentAssertions(string testName) =>
+            DoOneTest(testName);
     }
 }

@@ -10,11 +10,18 @@ namespace ReSharperPlugin.FluentAssertions.Helpers
     public class TestingFrameworkScanner : ITestingFrameworkScanner
     {
         private readonly ClrTypeName _nunit = new ClrTypeName("nunit.framework");
+        private readonly ClrTypeName _fluentAssertion = new ClrTypeName("FluentAssertions");
 
         /// <inheritdoc />
-        public bool IsNUnit(IEnumerable<IPsiModuleReference> references)
+        public bool HasNUnit(IEnumerable<IPsiModuleReference> references)
         {
             return references.Any(x => x.Module.DisplayName == _nunit.FullName);
+        }
+
+        /// <inheritdoc />
+        public bool HasFluentAssertion(IEnumerable<IPsiModuleReference> references)
+        {
+            return references.Any(x => x.Module.DisplayName == _fluentAssertion.FullName);
         }
     }
 }
