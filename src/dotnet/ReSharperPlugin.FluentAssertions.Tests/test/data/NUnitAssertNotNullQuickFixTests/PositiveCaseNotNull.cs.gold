@@ -12,6 +12,6 @@ public class ExampleTests
         string result = null;
         
         // assert
-        {caret}result.Should().BeNotNull();
+        {caret}result.Should().NotBeNull();
     }
 }

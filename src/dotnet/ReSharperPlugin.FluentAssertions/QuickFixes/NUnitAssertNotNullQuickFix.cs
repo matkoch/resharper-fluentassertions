@@ -38,7 +38,7 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
             }
 
             var factory = CSharpElementFactory.GetInstance(invocationExpression);
-            var expression = factory.CreateExpression("$0.Should().BeNotNull()", arguments.FirstOrDefault()?.GetText());
+            var expression = factory.CreateExpression("$0.Should().NotBeNull()", arguments.FirstOrDefault()?.GetText());
 
             invocationExpression.ReplaceBy(expression);
             var fluentAssertionUsing = factory.CreateUsingDirective("FluentAssertions");
@@ -53,7 +53,7 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
 
         /// <inheritdoc />
         public override string Text =>
-            $"Replace '{_highlighting.InvocationExpression.GetText()}' with '{_highlighting.InvocationExpression.Arguments.FirstOrDefault()?.GetText()}.Should().BeNotNull()'";
+            $"Replace '{_highlighting.InvocationExpression.GetText()}' with '{_highlighting.InvocationExpression.Arguments.FirstOrDefault()?.GetText()}.Should().NotBeNull()'";
 
         /// <inheritdoc />
         public override bool IsAvailable(IUserDataHolder cache)
