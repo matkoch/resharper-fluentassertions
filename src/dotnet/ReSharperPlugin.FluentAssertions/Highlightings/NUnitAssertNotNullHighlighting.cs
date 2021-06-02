@@ -8,24 +8,23 @@ namespace ReSharperPlugin.FluentAssertions.Highlightings
     [StaticSeverityHighlighting(Severity.WARNING, typeof(HighlightingGroupIds.IdentifierHighlightings))]
     public class NUnitAssertNotNullHighlighting : IHighlighting
     {
-        private readonly IInvocationExpression _invocationExpression;
+        internal readonly IInvocationExpression InvocationExpression;
 
         public NUnitAssertNotNullHighlighting(IInvocationExpression invocationExpression)
         {
-            _invocationExpression = invocationExpression;
+            InvocationExpression = invocationExpression;
         }
 
         /// <inheritdoc />
-        public bool IsValid() => _invocationExpression.IsValid();
+        public bool IsValid() => InvocationExpression.IsValid();
 
         /// <inheritdoc />
-        public DocumentRange CalculateRange() => _invocationExpression.GetDocumentRange();
+        public DocumentRange CalculateRange() => InvocationExpression.GetDocumentRange();
 
         /// <inheritdoc />
         public string ToolTip => "NUnit assertion can be replaced with FluentAssertion equivalents";
 
         /// <inheritdoc />
-        public string ErrorStripeToolTip =>
-            $"Replace '{_invocationExpression.GetText()}' with '{_invocationExpression.Arguments.FirstOrDefault()?.GetText()}.Should().BeNotNull()'";
+        public string ErrorStripeToolTip => ToolTip;
     }
 }

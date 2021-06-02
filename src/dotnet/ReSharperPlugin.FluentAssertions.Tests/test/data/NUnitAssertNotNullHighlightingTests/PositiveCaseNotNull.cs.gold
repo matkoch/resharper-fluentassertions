@@ -15,4 +15,4 @@ public class ExampleTests
     }
 }
 ---------------------------------------------------------
-(0): ReSharper Warning: (T) 'NUnit assertion can be replaced with FluentAssertion equivalents' (E) 'Replace 'Assert.NotNull(result)' with 'result.Should().BeNotNull()''
+(0): ReSharper Warning: NUnit assertion can be replaced with FluentAssertion equivalents
