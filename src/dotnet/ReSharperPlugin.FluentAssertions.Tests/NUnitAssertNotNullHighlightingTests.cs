@@ -21,7 +21,8 @@ namespace ReSharperPlugin.FluentAssertions.Tests
         }
 
         [TestNet50("NUnit/3.12.0", "FluentAssertions/5.10.3")]
-        [TestCase("PositiveCase")]
+        [TestCase("PositiveCaseIsNotNull")]
+        [TestCase("PositiveCaseNotNull")]
         public void ShouldDetectHighlightingWhenProjectHasReferenceToNUnitAndFluentAssertions(string testName) =>
             DoOneTest(testName);
 
