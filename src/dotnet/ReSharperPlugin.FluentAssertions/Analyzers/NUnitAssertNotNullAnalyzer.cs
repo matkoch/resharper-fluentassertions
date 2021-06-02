@@ -31,7 +31,9 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
                 return;
             }
 
-            if (element.InvokedExpression.GetText() == $"{nameof(Assert)}.{nameof(Assert.IsNotNull)}")
+            var invocationCodeString = element.InvokedExpression.GetText();
+            if (invocationCodeString == $"{nameof(Assert)}.{nameof(Assert.IsNotNull)}" ||
+                invocationCodeString == $"{nameof(Assert)}.{nameof(Assert.NotNull)}")
             {
                 consumer.AddHighlighting(new NUnitAssertNotNullHighlighting(element));
             }
