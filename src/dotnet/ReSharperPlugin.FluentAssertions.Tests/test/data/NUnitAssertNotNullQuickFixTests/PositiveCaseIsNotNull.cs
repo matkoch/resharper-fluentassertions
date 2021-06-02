@@ -11,8 +11,6 @@ public class ExampleTests
         string result = null;
         
         // assert
-        |Assert.IsNotNull(result)|(0);
+        {caret}Assert.IsNotNull(result);
     }
 }
----------------------------------------------------------
-(0): ReSharper Warning: NUnit assertion can be replaced with FluentAssertion equivalents

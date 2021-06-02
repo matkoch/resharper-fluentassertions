@@ -46,6 +46,7 @@ namespace ReSharperPlugin.FluentAssertions.Tests
             // Assert
             result.Should().BeFalse();
         }
+
         [Test]
         public void ProjectContainsReferenceToFluentAssertion()
         {
