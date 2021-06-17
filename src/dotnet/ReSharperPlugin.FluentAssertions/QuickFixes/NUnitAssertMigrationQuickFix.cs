@@ -32,6 +32,19 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
                 return null;
             }
 
+            var expression = CreateNotBeNullExpression(factory);
+            if (expression == null)
+            {
+                return null;
+            }
+
+            invocationExpression.ReplaceBy(expression);
+
+            return null;
+        }
+
+        private ICSharpExpression CreateNotBeNullExpression(CSharpElementFactory factory)
+        {
             var arguments = _highlighting.InvocationExpression.Arguments;
             if (!arguments.Any())
             {
@@ -39,10 +52,7 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
             }
 
             var expression = factory.CreateExpression("$0.Should().NotBeNull()", arguments.FirstOrDefault()?.GetText());
-
-            invocationExpression.ReplaceBy(expression);
-
-            return null;
+            return expression;
         }
 
         private static bool AddUsing(ITreeNode invocationExpression, CSharpElementFactory factory)
