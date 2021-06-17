@@ -15,6 +15,7 @@ output
 
 # IDEs
 /.idea/*.iml
+/.idea/**/.name
 /.idea/*.xml
 /.idea/.idea.*/*.iml
 /.idea/.idea.*/.idea/*.xml
