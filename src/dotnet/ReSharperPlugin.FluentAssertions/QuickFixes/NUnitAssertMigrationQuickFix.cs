@@ -27,10 +27,7 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
         {
             var invocationExpression = _highlighting.InvocationExpression;
             var factory = CSharpElementFactory.GetInstance(invocationExpression);
-            if (AddUsing(invocationExpression, factory))
-            {
-                return null;
-            }
+            AddUsing(invocationExpression, factory);
 
             var expression = CreateNotBeNullExpression(factory);
             if (expression == null)
@@ -55,11 +52,11 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
             return expression;
         }
 
-        private static bool AddUsing(ITreeNode invocationExpression, CSharpElementFactory factory)
+        private static void AddUsing(ITreeNode invocationExpression, CSharpElementFactory factory)
         {
             if (!(invocationExpression?.GetContainingFile() is ICSharpFile file))
             {
-                return true;
+                return;
             }
 
             var fluentAssertionUsing = factory.CreateUsingDirective("FluentAssertions");
@@ -68,8 +65,6 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
             {
                 file.AddImport(fluentAssertionUsing, true);
             }
-
-            return false;
         }
 
         /// <inheritdoc />
