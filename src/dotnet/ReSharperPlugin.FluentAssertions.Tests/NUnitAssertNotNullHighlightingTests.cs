@@ -17,7 +17,7 @@ namespace ReSharperPlugin.FluentAssertions.Tests
             IPsiSourceFile sourceFile,
             IContextBoundSettingsStore settingsStore)
         {
-            return highlighting is NUnitAssertNotNullHighlighting;
+            return highlighting is NUnitAssertMigrationHighlighting;
         }
 
         [TestNet50("NUnit/3.12.0", "FluentAssertions/5.10.3")]

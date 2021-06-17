@@ -5,7 +5,7 @@ using ReSharperPlugin.FluentAssertions.QuickFixes;
 
 namespace ReSharperPlugin.FluentAssertions.Tests
 {
-    public class NUnitAssertNotNullQuickFixTests : CSharpQuickFixTestBase<NUnitAssertNotNullQuickFix>
+    public class NUnitAssertNotNullQuickFixTests : CSharpQuickFixTestBase<NUnitAssertMigrationQuickFix>
     {
         protected override string RelativeTestDataPath => nameof(NUnitAssertNotNullQuickFixTests);
 

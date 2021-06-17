@@ -9,8 +9,8 @@ using ReSharperPlugin.FluentAssertions.Highlightings;
 namespace ReSharperPlugin.FluentAssertions.Analyzers
 {
     [ElementProblemAnalyzer(typeof(IInvocationExpression),
-        HighlightingTypes = new[] {typeof(NUnitAssertNotNullHighlighting)})]
-    public class NUnitAssertNotNullAnalyzer : ElementProblemAnalyzer<IInvocationExpression>
+        HighlightingTypes = new[] {typeof(NUnitAssertMigrationHighlighting)})]
+    public class NUnitAssertMigrationAnalyzer : ElementProblemAnalyzer<IInvocationExpression>
     {
         /// <inheritdoc />
         protected override void Run(IInvocationExpression element, ElementProblemAnalyzerData data,
@@ -35,7 +35,7 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
             if (invocationCodeString == $"{nameof(Assert)}.{nameof(Assert.IsNotNull)}" ||
                 invocationCodeString == $"{nameof(Assert)}.{nameof(Assert.NotNull)}")
             {
-                consumer.AddHighlighting(new NUnitAssertNotNullHighlighting(element));
+                consumer.AddHighlighting(new NUnitAssertMigrationHighlighting(element));
             }
         }
     }
