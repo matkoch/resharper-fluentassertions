@@ -6,11 +6,11 @@ using JetBrains.ReSharper.Psi.Tree;
 namespace ReSharperPlugin.FluentAssertions.Highlightings
 {
     [StaticSeverityHighlighting(Severity.WARNING, typeof(HighlightingGroupIds.IdentifierHighlightings))]
-    public class NUnitAssertNotNullHighlighting : IHighlighting
+    public class NUnitAssertMigrationHighlighting : IHighlighting
     {
         internal readonly IInvocationExpression InvocationExpression;
 
-        public NUnitAssertNotNullHighlighting(IInvocationExpression invocationExpression)
+        public NUnitAssertMigrationHighlighting(IInvocationExpression invocationExpression)
         {
             InvocationExpression = invocationExpression;
         }

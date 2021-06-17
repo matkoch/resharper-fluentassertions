@@ -13,11 +13,11 @@ using ReSharperPlugin.FluentAssertions.Highlightings;
 namespace ReSharperPlugin.FluentAssertions.QuickFixes
 {
     [QuickFix]
-    public class NUnitAssertNotNullQuickFix : QuickFixBase
+    public class NUnitAssertMigrationQuickFix : QuickFixBase
     {
-        private readonly NUnitAssertNotNullHighlighting _highlighting;
+        private readonly NUnitAssertMigrationHighlighting _highlighting;
 
-        public NUnitAssertNotNullQuickFix(NUnitAssertNotNullHighlighting highlighting)
+        public NUnitAssertMigrationQuickFix(NUnitAssertMigrationHighlighting highlighting)
         {
             _highlighting = highlighting;
         }
@@ -26,7 +26,8 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
             var invocationExpression = _highlighting.InvocationExpression;
-            if (!(invocationExpression?.GetContainingFile() is ICSharpFile file))
+            var factory = CSharpElementFactory.GetInstance(invocationExpression);
+            if (AddUsing(invocationExpression, factory))
             {
                 return null;
             }
@@ -37,10 +38,20 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
                 return null;
             }
 
-            var factory = CSharpElementFactory.GetInstance(invocationExpression);
             var expression = factory.CreateExpression("$0.Should().NotBeNull()", arguments.FirstOrDefault()?.GetText());
 
             invocationExpression.ReplaceBy(expression);
+
+            return null;
+        }
+
+        private static bool AddUsing(ITreeNode invocationExpression, CSharpElementFactory factory)
+        {
+            if (!(invocationExpression?.GetContainingFile() is ICSharpFile file))
+            {
+                return true;
+            }
+
             var fluentAssertionUsing = factory.CreateUsingDirective("FluentAssertions");
             if (file.ImportsEnumerable.OfType<IUsingSymbolDirective>().All(i =>
                 i.ImportedSymbolName.QualifiedName != fluentAssertionUsing.ImportedSymbolName.QualifiedName))
@@ -48,7 +59,7 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
                 file.AddImport(fluentAssertionUsing, true);
             }
 
-            return null;
+            return false;
         }
 
         /// <inheritdoc />
