@@ -69,7 +69,7 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
 
         /// <inheritdoc />
         public override string Text =>
-            $"Replace '{_highlighting.InvocationExpression.GetText()}' with '{_highlighting.InvocationExpression.Arguments.FirstOrDefault()?.GetText()}.Should().NotBeNull()'";
+            $"Replace '{_highlighting.InvocationExpression.GetText()}' with FluentAssertion equivalent";
 
         /// <inheritdoc />
         public override bool IsAvailable(IUserDataHolder cache)
