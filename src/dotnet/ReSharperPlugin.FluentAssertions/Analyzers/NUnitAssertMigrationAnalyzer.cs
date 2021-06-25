@@ -12,6 +12,7 @@ using ReSharperPlugin.FluentAssertions.Highlightings;
 
 namespace ReSharperPlugin.FluentAssertions.Analyzers
 {
+    /// <inheritdoc />
     [ElementProblemAnalyzer(typeof(IInvocationExpression),
         HighlightingTypes = new[] {typeof(NUnitAssertMigrationHighlighting)})]
     public class NUnitAssertMigrationAnalyzer : ElementProblemAnalyzer<IInvocationExpression>
@@ -34,7 +35,6 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
             {
                 return;
             }
-
 
             if (IsMemberAccessExpressionTypeOf<Assert>(element))
             {

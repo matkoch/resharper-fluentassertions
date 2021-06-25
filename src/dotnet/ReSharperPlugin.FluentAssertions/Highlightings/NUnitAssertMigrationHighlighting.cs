@@ -5,6 +5,7 @@ using JetBrains.ReSharper.Psi.Tree;
 
 namespace ReSharperPlugin.FluentAssertions.Highlightings
 {
+    /// <inheritdoc />
     [StaticSeverityHighlighting(Severity.WARNING, typeof(HighlightingGroupIds.IdentifierHighlightings))]
     public class NUnitAssertMigrationHighlighting : IHighlighting
     {

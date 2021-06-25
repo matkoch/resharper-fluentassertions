@@ -11,6 +11,7 @@ namespace ReSharperPlugin.FluentAssertions.Helpers
     public class TestingFrameworkScanner : ITestingFrameworkScanner
     {
         private readonly ClrTypeName _nunit = new ClrTypeName("nunit.framework");
+        
         private readonly ClrTypeName _fluentAssertion = new ClrTypeName("FluentAssertions");
 
         /// <inheritdoc />
