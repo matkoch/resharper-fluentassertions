@@ -6,6 +6,7 @@ using JetBrains.ReSharper.Psi.Modules;
 
 namespace ReSharperPlugin.FluentAssertions.Helpers
 {
+    /// <inheritdoc />
     [SolutionComponent]
     public class TestingFrameworkScanner : ITestingFrameworkScanner
     {
