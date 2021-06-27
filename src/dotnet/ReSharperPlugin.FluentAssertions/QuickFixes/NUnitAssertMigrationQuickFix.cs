@@ -8,6 +8,7 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.TextControl;
 using JetBrains.Util;
+using ReSharperPlugin.FluentAssertions.Helpers.NUnit;
 using ReSharperPlugin.FluentAssertions.Highlightings;
 
 namespace ReSharperPlugin.FluentAssertions.QuickFixes
@@ -28,32 +29,19 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
         {
             var invocationExpression = _highlighting.InvocationExpression;
             var factory = CSharpElementFactory.GetInstance(invocationExpression);
-            
-            AddUsing(invocationExpression, factory);
+            var migrationServices = solution.GetComponents<INUnitAssertMigrationService>();
 
-            var expression = CreateNotBeNullExpression(factory);
+            var migrationService = migrationServices.FirstOrDefault(x => x.CanMigrate(invocationExpression));
+
+            var expression = migrationService?.CreateMigrationExpression(factory, invocationExpression);
             if (expression == null)
             {
                 return null;
             }
 
+            AddUsing(invocationExpression, factory);
             invocationExpression.ReplaceBy(expression);
-
             return null;
-        }
-
-        private ICSharpExpression CreateNotBeNullExpression(CSharpElementFactory factory)
-        {
-            var arguments = _highlighting.InvocationExpression.Arguments;
-            
-            if (!arguments.Any())
-            {
-                return null;
-            }
-
-            var expression = factory.CreateExpression("$0.Should().NotBeNull()", arguments.FirstOrDefault()?.GetText());
-            
-            return expression;
         }
 
         private static void AddUsing(ITreeNode invocationExpression, CSharpElementFactory factory)
@@ -64,7 +52,7 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
             }
 
             var fluentAssertionUsing = factory.CreateUsingDirective("FluentAssertions");
-            
+
             if (file.ImportsEnumerable.OfType<IUsingSymbolDirective>().All(i =>
                 i.ImportedSymbolName.QualifiedName != fluentAssertionUsing.ImportedSymbolName.QualifiedName))
             {
