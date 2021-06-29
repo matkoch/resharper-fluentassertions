@@ -1,4 +1,4 @@
-using NUnit.Framework;
+using FluentAssertions;
 
 public class ExampleTests
 {
@@ -11,6 +11,6 @@ public class ExampleTests
         string result = null;
         
         // assert
-        Assert.IsNull(result);
+        result.Should().NotBeNull();
     }
 }
