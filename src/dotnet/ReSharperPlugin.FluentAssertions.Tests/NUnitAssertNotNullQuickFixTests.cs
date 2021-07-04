@@ -10,15 +10,8 @@ namespace ReSharperPlugin.FluentAssertions.Tests
         protected override string RelativeTestDataPath => nameof(NUnitAssertNotNullQuickFixTests);
 
         [TestNet50("NUnit/3.12.0", "FluentAssertions/5.10.3")]
-        [TestCase("PositiveCaseIsNotNull")]
-        [TestCase("PositiveCaseIsNotNullWithFormattedMessage")]
-        [TestCase("PositiveCaseIsNotNullWithSimpleMessage")]
-        [TestCase("PositiveCaseNotNull")]
-        [TestCase("PositiveCaseNotNullWithFormattedMessage")]
-        [TestCase("PositiveCaseNotNullWithSimpleMessage")]
-        [TestCase("PositiveCaseIsNotEmpty")]
-        [TestCase("PositiveCaseIsNotEmptyWithSimpleMessage")]
-        [TestCase("PositiveCaseIsNotEmptyWithFormatedMessage")]
+        [TestCaseSource(typeof(TestHelper), nameof(TestHelper.FileNames),
+            new object[] {nameof(NUnitAssertNotNullQuickFixTests)})]
         public void ShouldApplyQuickFix(string testName) =>
             DoOneTest(testName);
     }
