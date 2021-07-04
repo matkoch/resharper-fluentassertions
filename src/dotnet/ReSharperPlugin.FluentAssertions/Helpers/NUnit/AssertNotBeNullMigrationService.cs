@@ -1,3 +1,4 @@
+using System.Linq;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -13,14 +14,18 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
         public ICSharpExpression CreateMigrationExpression(CSharpElementFactory factory,
             IInvocationExpression invocationExpression)
         {
-            var arguments = invocationExpression.Arguments;
+            var arguments = invocationExpression.Arguments
+                .Select(x => x.GetText())
+                .Cast<object>()
+                .ToArray();
 
             if (!arguments.Any())
             {
                 return null;
             }
 
-            var expression = factory.CreateExpression("$0.Should().NotBeNull()", arguments.FirstOrDefault()?.GetText());
+            var expressionFormat = $"$0.Should().NotBeNull({arguments.GetExpressionFormatParameters()})";
+            var expression = factory.CreateExpression(expressionFormat, arguments);
 
             return expression;
         }
