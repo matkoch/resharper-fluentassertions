@@ -5,6 +5,7 @@ build
 output
 .gradle
 .tmp
+/packages/
 
 # User-specific files
 *.suo
@@ -14,6 +15,7 @@ output
 
 # IDEs
 /.idea/*.iml
+/.idea/**/.name
 /.idea/*.xml
 /.idea/.idea.*/*.iml
 /.idea/.idea.*/.idea/*.xml
