@@ -5,13 +5,13 @@ using ReSharperPlugin.FluentAssertions.QuickFixes;
 
 namespace ReSharperPlugin.FluentAssertions.Tests
 {
-    public class NUnitAssertNotNullQuickFixTests : CSharpQuickFixTestBase<NUnitAssertMigrationQuickFix>
+    public class NUnitAssertMigrationQuickFixTests : CSharpQuickFixTestBase<NUnitAssertMigrationQuickFix>
     {
-        protected override string RelativeTestDataPath => nameof(NUnitAssertNotNullQuickFixTests);
+        protected override string RelativeTestDataPath => nameof(NUnitAssertMigrationQuickFixTests);
 
         [TestNet50("NUnit/3.12.0", "FluentAssertions/5.10.3")]
         [TestCaseSource(typeof(TestHelper), nameof(TestHelper.FileNames),
-            new object[] {nameof(NUnitAssertNotNullQuickFixTests)})]
+            new object[] {nameof(NUnitAssertMigrationQuickFixTests)})]
         public void ShouldApplyQuickFix(string testName) =>
             DoOneTest(testName);
     }

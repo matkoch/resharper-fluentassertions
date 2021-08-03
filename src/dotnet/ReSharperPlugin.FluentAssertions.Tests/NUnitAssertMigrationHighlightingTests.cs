@@ -8,9 +8,9 @@ using ReSharperPlugin.FluentAssertions.Highlightings;
 
 namespace ReSharperPlugin.FluentAssertions.Tests
 {
-    public class NUnitAssertNotNullHighlightingTests : CSharpHighlightingTestBase
+    public class NUnitAssertMigrationHighlightingTests : CSharpHighlightingTestBase
     {
-        protected override string RelativeTestDataPath => nameof(NUnitAssertNotNullHighlightingTests);
+        protected override string RelativeTestDataPath => nameof(NUnitAssertMigrationHighlightingTests);
 
         protected override bool HighlightingPredicate(
             IHighlighting highlighting,
@@ -24,7 +24,7 @@ namespace ReSharperPlugin.FluentAssertions.Tests
         [TestCaseSource(typeof(TestHelper), nameof(TestHelper.FilteredFileNames),
             new object[]
             {
-                nameof(NUnitAssertNotNullHighlightingTests),
+                nameof(NUnitAssertMigrationHighlightingTests),
                 new[] {"PositiveCaseWithoutReferences", "NegativeCase"}
             })]
         public void ShouldDetectHighlightingWhenProjectHasReferenceToNUnitAndFluentAssertions(string testName)
