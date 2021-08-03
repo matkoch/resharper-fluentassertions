@@ -1,20 +1,19 @@
 using System.Linq;
 using JetBrains.Annotations;
-using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Resx.Utils;
 using NUnit.Framework;
-using ReSharperPlugin.FluentAssertions.Helpers;
 using ReSharperPlugin.FluentAssertions.Highlightings;
+using ReSharperPlugin.FluentAssertions.Psi;
 
 namespace ReSharperPlugin.FluentAssertions.Analyzers
 {
     /// <inheritdoc />
     [ElementProblemAnalyzer(typeof(IInvocationExpression),
-        HighlightingTypes = new[] {typeof(NUnitAssertMigrationHighlighting)})]
+        HighlightingTypes = new[] { typeof(NUnitAssertMigrationHighlighting) })]
     public class NUnitAssertMigrationAnalyzer : ElementProblemAnalyzer<IInvocationExpression>
     {
         /// <inheritdoc />
@@ -28,10 +27,8 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
                 return;
             }
 
-            var testingFrameworkScanner = psiModule.GetSolution().GetComponent<ITestingFrameworkScanner>();
-
-            if (!testingFrameworkScanner.HasNUnit(references) ||
-                !testingFrameworkScanner.HasFluentAssertions(references))
+            if (!element.IsProjectReferencedToFluentAssertions() ||
+                !element.IsProjectReferencedToNUnit())
             {
                 return;
             }
