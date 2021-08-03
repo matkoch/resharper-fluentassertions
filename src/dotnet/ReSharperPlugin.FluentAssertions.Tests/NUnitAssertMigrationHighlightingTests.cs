@@ -25,13 +25,14 @@ namespace ReSharperPlugin.FluentAssertions.Tests
             new object[]
             {
                 nameof(NUnitAssertMigrationHighlightingTests),
-                new[] {"PositiveCaseWithoutReferences", "NegativeCase"}
+                new[] { "PositiveCaseWithoutReferences", "NegativeCase" }
             })]
         public void ShouldDetectHighlightingWhenProjectHasReferenceToNUnitAndFluentAssertions(string testName)
         {
             DoOneTest(testName);
         }
 
+        [TestNet50]
         [TestCase("PositiveCaseWithoutReferences")]
         [TestCase("NegativeCase")]
         public void ShouldNotBeDetectHighlighting(string testName) => DoOneTest(testName);
