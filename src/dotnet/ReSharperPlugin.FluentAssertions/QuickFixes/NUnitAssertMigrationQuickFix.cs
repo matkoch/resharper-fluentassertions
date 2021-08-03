@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
+using JetBrains.ReSharper.Feature.Services.LinqTools;
 using JetBrains.ReSharper.Feature.Services.QuickFixes;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -18,40 +19,37 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
     public class NUnitAssertMigrationQuickFix : QuickFixBase
     {
         private readonly NUnitAssertMigrationHighlighting _highlighting;
+        private readonly BaseNUnitAssertMigrationService _migrationService;
 
-        public NUnitAssertMigrationQuickFix(NUnitAssertMigrationHighlighting highlighting)
+        public NUnitAssertMigrationQuickFix(NUnitAssertMigrationHighlighting highlighting) 
         {
             _highlighting = highlighting;
+
+            _migrationService = highlighting.InvocationExpression.PsiModule.GetSolution()
+                .GetComponents<BaseNUnitAssertMigrationService>()
+                .FirstOrDefault(x => x.CanMigrate(_highlighting.InvocationExpression));
         }
 
         /// <inheritdoc />
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
             var invocationExpression = _highlighting.InvocationExpression;
-            var factory = CSharpElementFactory.GetInstance(invocationExpression);
-            var migrationServices = solution.GetComponents<INUnitAssertMigrationService>();
 
-            var migrationService = migrationServices.FirstOrDefault(x => x.CanMigrate(invocationExpression));
+            AddUsing(invocationExpression);
+            invocationExpression.ReplaceBy(_migrationService.CreateMigrationExpression(invocationExpression));
 
-            var expression = migrationService?.CreateMigrationExpression(factory, invocationExpression);
-            if (expression == null)
-            {
-                return null;
-            }
-
-            AddUsing(invocationExpression, factory);
-            invocationExpression.ReplaceBy(expression);
             return null;
         }
 
-        private static void AddUsing(ITreeNode invocationExpression, CSharpElementFactory factory)
+        private static void AddUsing(ITreeNode invocationExpression)
         {
             if (!(invocationExpression?.GetContainingFile() is ICSharpFile file))
             {
                 return;
             }
 
-            var fluentAssertionUsing = factory.CreateUsingDirective("FluentAssertions");
+            var fluentAssertionUsing = CSharpElementFactory.GetInstance(invocationExpression)
+                .CreateUsingDirective(nameof(FluentAssertions));
 
             if (file.ImportsEnumerable.OfType<IUsingSymbolDirective>().All(i =>
                 i.ImportedSymbolName.QualifiedName != fluentAssertionUsing.ImportedSymbolName.QualifiedName))
@@ -61,13 +59,12 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
         }
 
         /// <inheritdoc />
-        public override string Text =>
-            $"Replace '{_highlighting.InvocationExpression.GetText()}' with FluentAssertion equivalent";
+        public override string Text => _migrationService.GetTextMessage(_highlighting.InvocationExpression);
 
         /// <inheritdoc />
         public override bool IsAvailable(IUserDataHolder cache)
         {
-            return _highlighting.IsValid();
+            return _highlighting.IsValid() && _migrationService != null;
         }
     }
 }
