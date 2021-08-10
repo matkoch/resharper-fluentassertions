@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using JetBrains.ProjectModel;
-using NUnit.Framework;
 
 namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
 {
@@ -19,8 +18,8 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
         {
             return new List<string>
             {
-                nameof(Assert.NotNull),
-                nameof(Assert.IsNotNull)
+                "NotNull",
+                "IsNotNull"
             };
         }
     }
