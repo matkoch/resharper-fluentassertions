@@ -1,11 +1,12 @@
 using System.Linq;
 using JetBrains.Annotations;
+using JetBrains.Metadata.Reader.API;
+using JetBrains.Metadata.Reader.Impl;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Resx.Utils;
-using NUnit.Framework;
 using ReSharperPlugin.FluentAssertions.Highlightings;
 using ReSharperPlugin.FluentAssertions.Psi;
 
@@ -16,6 +17,8 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
         HighlightingTypes = new[] { typeof(NUnitAssertMigrationHighlighting) })]
     public class NUnitAssertMigrationAnalyzer : ElementProblemAnalyzer<IInvocationExpression>
     {
+        private readonly IClrTypeName _nUnit = new ClrTypeName("NUnit.Framework.Assert");
+
         /// <inheritdoc />
         protected override void Run(IInvocationExpression element, ElementProblemAnalyzerData data,
             IHighlightingConsumer consumer)
@@ -33,13 +36,13 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
                 return;
             }
 
-            if (IsMemberAccessExpressionTypeOf<Assert>(element))
+            if (IsMemberAccessExpressionTypeOf(element))
             {
                 consumer.AddHighlighting(new NUnitAssertMigrationHighlighting(element));
             }
         }
 
-        private bool IsMemberAccessExpressionTypeOf<TType>([CanBeNull] IInvocationExpression invocationExpression)
+        private bool IsMemberAccessExpressionTypeOf([CanBeNull] IInvocationExpression invocationExpression)
         {
             if (invocationExpression?.Reference == null)
             {
@@ -56,15 +59,15 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
             var info = qualifier.Reference.Resolve();
 
             return info.ResolveErrorType == ResolveErrorType.MULTIPLE_CANDIDATES
-                ? info.Result.Candidates.Any(IsTypeOf<TType>)
-                : IsTypeOf<TType>(info.DeclaredElement);
+                ? info.Result.Candidates.Any(IsTypeOf)
+                : IsTypeOf(info.DeclaredElement);
         }
 
-        private bool IsTypeOf<TType>([CanBeNull] IDeclaredElement declaredElement)
+        private bool IsTypeOf([CanBeNull] IDeclaredElement declaredElement)
         {
             var declaredElementAsString = declaredElement.ConvertToString();
 
-            return declaredElementAsString == $"Class:{typeof(TType).FullName}";
+            return declaredElementAsString == $"Class:{_nUnit.FullName}";
         }
     }
 }
