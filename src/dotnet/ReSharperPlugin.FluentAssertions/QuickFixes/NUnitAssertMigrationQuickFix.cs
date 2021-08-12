@@ -16,7 +16,7 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
 {
     /// <inheritdoc />
     [QuickFix]
-    public class NUnitAssertMigrationQuickFix : QuickFixBase
+    public class NUnitAssertMigrationQuickFix : ScopedQuickFixBase
     {
         private readonly NUnitAssertMigrationHighlighting _highlighting;
         private readonly BaseNUnitAssertMigrationService _migrationService;
@@ -65,6 +65,12 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
         public override bool IsAvailable(IUserDataHolder cache)
         {
             return _highlighting.IsValid() && _migrationService != null;
+        }
+
+        /// <inheritdoc />
+        protected override ITreeNode TryGetContextTreeNode()
+        {
+            return _highlighting.InvocationExpression;
         }
     }
 }
