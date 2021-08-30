@@ -1,6 +1,6 @@
 <idea-plugin require-restart="true">
   <id>fluentassertions-rider</id>
-  <name>FluentAssertions</name>
+  <name>FluentAssertions Support</name>
   <version>_PLACEHOLDER_</version>
   <vendor url="https://github.com/matkoch/resharper-fluentassertions">Matthias Koch</vendor>
   <idea-version since-build="_PLACEHOLDER_" until-build="_PLACEHOLDER_" />
@@ -8,7 +8,7 @@
 
   <description>
 <![CDATA[
-<p>Support plugin for FluentAssertions. A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
+<p>Support plugin for <a href="https://fluentassertions.com/">FluentAssertions</a>. A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
       BDD-style unit tests.</p>
 <ul>
   <li><a href="https://www.jetbrains.com/help/rider/Postfix_Templates.html">Postfix templates</a> <code>.result</c> and <code>.testee</code> for easier standardization of tests</li>
