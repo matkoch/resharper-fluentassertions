@@ -19,7 +19,7 @@ namespace ReSharperPlugin.FluentAssertions.Psi
         /// <summary>
         /// NUnit Assembly Name
         /// </summary>
-        private const string NUnitAssemblyName = nameof(FluentAssertions);
+        private const string NUnitAssemblyName = nameof(NUnit) + "." + nameof(NUnit.Framework);
 
         /// <summary>
         /// Determine whether a project referencing to NUnit for ITreeNode
