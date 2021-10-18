@@ -31,6 +31,7 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
         /// <returns>FluentAssertion equivalent expression</returns>
         public IExpression CreateMigrationExpression(IInvocationExpression invocationExpression)
         {
+            // TODO: i think GetText is unnecessary here
             var arguments = invocationExpression.Arguments
                 .Select(x => x.GetText())
                 .Cast<object>()
@@ -68,6 +69,7 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
             var nUnitAssert = invocationExpression.GetText();
             var expression = CreateMigrationExpression(invocationExpression);
             return expression is null
+                // TODO: this means we cannot convert?
                 ? string.Format(MessageTemplate, nUnitAssert, " with FluentAssertion equivalent")
                 : string.Format(MessageTemplate, nUnitAssert, expression.GetText());
         }

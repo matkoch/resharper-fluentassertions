@@ -35,7 +35,11 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
         {
             var invocationExpression = _highlighting.InvocationExpression;
 
+            // TODO: this shouldn't be necessary. it also probably wouldn't account for global usings for instance
             AddUsing(invocationExpression);
+            // TODO: instead, the expression should be created with the proper arguments
+            // TODO: for instance: factory.CreateExpression("$0.$1(x => x > 0)", arrVariable, enumerableCountMethod);
+            // TODO: but this probably makes the migration services a bit more complicated
             invocationExpression.ReplaceBy(_migrationService.CreateMigrationExpression(invocationExpression));
 
             return null;

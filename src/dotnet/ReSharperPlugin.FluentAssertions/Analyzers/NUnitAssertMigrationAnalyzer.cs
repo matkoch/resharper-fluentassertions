@@ -23,6 +23,7 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
         protected override void Run(IInvocationExpression element, ElementProblemAnalyzerData data,
             IHighlightingConsumer consumer)
         {
+            // TODO: not entirely sure if this is even needed
             var psiModule = element.GetPsiModule();
             var references = element.GetPsiServices().Modules.GetModuleReferences(psiModule);
             if (references.Count == 0)
@@ -58,6 +59,7 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
 
             var info = qualifier.Reference.Resolve();
 
+            // TODO: i don't think we have to check for candidates as long as we expect the code is compilable
             return info.ResolveErrorType == ResolveErrorType.MULTIPLE_CANDIDATES
                 ? info.Result.Candidates.Any(IsTypeOf)
                 : IsTypeOf(info.DeclaredElement);
