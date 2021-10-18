@@ -19,14 +19,14 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
     public class NUnitAssertMigrationQuickFix : ScopedQuickFixBase
     {
         private readonly NUnitAssertMigrationHighlighting _highlighting;
-        private readonly BaseNUnitAssertMigrationService _migrationService;
+        private readonly NUnitAssertMigrationServiceBase _migrationService;
 
         public NUnitAssertMigrationQuickFix(NUnitAssertMigrationHighlighting highlighting) 
         {
             _highlighting = highlighting;
 
             _migrationService = highlighting.InvocationExpression.PsiModule.GetSolution()
-                .GetComponents<BaseNUnitAssertMigrationService>()
+                .GetComponents<NUnitAssertMigrationServiceBase>()
                 .FirstOrDefault(x => x.CanMigrate(_highlighting.InvocationExpression));
         }
 

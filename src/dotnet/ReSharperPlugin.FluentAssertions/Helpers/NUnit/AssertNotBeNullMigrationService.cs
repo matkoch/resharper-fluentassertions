@@ -5,7 +5,7 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
 {
     /// <inheritdoc />
     [SolutionComponent]
-    public class AssertNotBeNullMigrationService : BaseNUnitAssertMigrationService
+    public class AssertNotBeNullMigrationService : NUnitAssertMigrationServiceBase
     {
         /// <inheritdoc />
         protected override string GetMigrationExpressionFormat()
