@@ -78,5 +78,14 @@ namespace ReSharperPlugin.FluentAssertions.Psi
                 AssemblyNameInfoFactory.Create2(FluentAssertionsAssemblyName, version: null),
                 out _);
         }
+
+        public static bool IsNUnitAssert(this ITypeElement element)
+        {
+            if (element == null)
+                return false;
+
+            var type = element.Module.GetFluentAssertionsPredefinedType().Assert.GetTypeElement();
+            return element.IsDescendantOf(type);
+        }
     }
 }
