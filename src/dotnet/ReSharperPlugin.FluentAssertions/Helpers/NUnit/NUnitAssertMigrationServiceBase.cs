@@ -9,7 +9,7 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
     /// <summary>
     /// Service for creation migration expression from NUnit Assert to FluentAssertion equivalent
     /// </summary>
-    public abstract class BaseNUnitAssertMigrationService
+    public abstract class NUnitAssertMigrationServiceBase
     {
         private const string MessageTemplate = "Replace {0} with {1}";
 
