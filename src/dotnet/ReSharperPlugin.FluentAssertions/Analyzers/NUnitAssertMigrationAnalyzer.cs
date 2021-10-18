@@ -57,6 +57,9 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
                 return false;
             }
 
+            var typeMember = qualifier.Reference.Resolve().DeclaredElement as ITypeElement;
+            return typeMember.IsNUnitAssert();
+
             var info = qualifier.Reference.Resolve();
 
             // TODO: i don't think we have to check for candidates as long as we expect the code is compilable
