@@ -23,14 +23,6 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
         protected override void Run(IInvocationExpression element, ElementProblemAnalyzerData data,
             IHighlightingConsumer consumer)
         {
-            // TODO: not entirely sure if this is even needed
-            var psiModule = element.GetPsiModule();
-            var references = element.GetPsiServices().Modules.GetModuleReferences(psiModule);
-            if (references.Count == 0)
-            {
-                return;
-            }
-
             if (!element.IsProjectReferencedToFluentAssertions() ||
                 !element.IsProjectReferencedToNUnit())
             {
