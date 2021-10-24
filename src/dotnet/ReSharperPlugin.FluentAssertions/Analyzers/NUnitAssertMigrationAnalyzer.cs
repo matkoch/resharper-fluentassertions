@@ -1,12 +1,7 @@
-using System.Linq;
 using JetBrains.Annotations;
-using JetBrains.Metadata.Reader.API;
-using JetBrains.Metadata.Reader.Impl;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
-using JetBrains.ReSharper.Psi.Resolve;
-using JetBrains.ReSharper.Psi.Resx.Utils;
 using ReSharperPlugin.FluentAssertions.Highlightings;
 using ReSharperPlugin.FluentAssertions.Psi;
 
@@ -17,8 +12,6 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
         HighlightingTypes = new[] { typeof(NUnitAssertMigrationHighlighting) })]
     public class NUnitAssertMigrationAnalyzer : ElementProblemAnalyzer<IInvocationExpression>
     {
-        private readonly IClrTypeName _nUnit = new ClrTypeName("NUnit.Framework.Assert");
-
         /// <inheritdoc />
         protected override void Run(IInvocationExpression element, ElementProblemAnalyzerData data,
             IHighlightingConsumer consumer)
@@ -50,21 +43,9 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
             }
 
             var typeMember = qualifier.Reference.Resolve().DeclaredElement as ITypeElement;
+            
             return typeMember.IsNUnitAssert();
 
-            var info = qualifier.Reference.Resolve();
-
-            // TODO: i don't think we have to check for candidates as long as we expect the code is compilable
-            return info.ResolveErrorType == ResolveErrorType.MULTIPLE_CANDIDATES
-                ? info.Result.Candidates.Any(IsTypeOf)
-                : IsTypeOf(info.DeclaredElement);
-        }
-
-        private bool IsTypeOf([CanBeNull] IDeclaredElement declaredElement)
-        {
-            var declaredElementAsString = declaredElement.ConvertToString();
-
-            return declaredElementAsString == $"Class:{_nUnit.FullName}";
         }
     }
 }
