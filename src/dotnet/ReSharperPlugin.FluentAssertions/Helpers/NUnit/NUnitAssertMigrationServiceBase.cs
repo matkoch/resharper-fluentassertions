@@ -43,7 +43,7 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
             }
 
             var expressionFormat =
-                string.Format(GetMigrationExpressionFormat(), arguments.GetExpressionFormatParameters());
+                string.Format(GetMigrationExpressionFormat(), arguments.GetExpressionFormatArguments());
 
             return invocationExpression.CreateExpression(expressionFormat, arguments);
         }

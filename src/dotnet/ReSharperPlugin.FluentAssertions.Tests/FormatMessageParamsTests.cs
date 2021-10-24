@@ -14,7 +14,7 @@ namespace ReSharperPlugin.FluentAssertions.Tests
             var arguments = Array.Empty<string>();
 
             // Act
-            var result = arguments.GetExpressionFormatParameters();
+            var result = arguments.GetExpressionFormatArguments();
 
             result.Should().BeEmpty();
         }
@@ -26,7 +26,7 @@ namespace ReSharperPlugin.FluentAssertions.Tests
             var arguments = new[] {"result"};
 
             // Act
-            var result = arguments.GetExpressionFormatParameters();
+            var result = arguments.GetExpressionFormatArguments();
 
             result.Should().BeEmpty();
         }
@@ -38,7 +38,7 @@ namespace ReSharperPlugin.FluentAssertions.Tests
             var arguments = new[] {"result", "simple message"};
 
             // Act
-            var result = arguments.GetExpressionFormatParameters();
+            var result = arguments.GetExpressionFormatArguments();
 
             result.Should().Be("$1");
         }
@@ -50,7 +50,7 @@ namespace ReSharperPlugin.FluentAssertions.Tests
             var arguments = new[] {"result", "simple message", "param1", "param2", "param3"};
 
             // Act
-            var result = arguments.GetExpressionFormatParameters();
+            var result = arguments.GetExpressionFormatArguments();
 
             result.Should().Be("$1, $2, $3, $4");
         }

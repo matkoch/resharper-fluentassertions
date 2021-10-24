@@ -5,8 +5,7 @@ namespace ReSharperPlugin.FluentAssertions.Helpers
 {
     public static class ExpressionFormatParametersExtensions
     {
-        // TODO: GetExpressionFormatArguments
-        public static string GetExpressionFormatParameters<TType>(this IEnumerable<TType> arguments)
+        public static string GetExpressionFormatArguments<TType>(this IEnumerable<TType> arguments)
         {
             var groups = arguments.Skip(1).Select((item, index) => $"${index + 1}");
             return string.Join(", ", groups);
