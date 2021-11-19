@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using JetBrains.ReSharper.I18n.Services;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
@@ -29,6 +30,7 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
         /// Create FluentAssertion equivalent expression
         /// </summary>
         /// <returns>FluentAssertion equivalent expression</returns>
+        [NotNull]
         public IExpression CreateMigrationExpression(IInvocationExpression invocationExpression)
         {
             var arguments = invocationExpression.Arguments
@@ -38,13 +40,13 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
 
             if (!arguments.Any())
             {
-                return null;
+                return invocationExpression;
             }
 
             var expressionFormat =
                 string.Format(GetMigrationExpressionFormat(), arguments.GetExpressionFormatArguments());
 
-            return invocationExpression.CreateExpression(expressionFormat, arguments);
+            return invocationExpression.CreateExpression(expressionFormat, arguments) ?? invocationExpression;
         }
 
         /// <summary>
@@ -67,10 +69,8 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
         {
             var nUnitAssert = invocationExpression.GetText();
             var expression = CreateMigrationExpression(invocationExpression);
-            return expression is null
-                // TODO: this means we cannot convert?
-                ? string.Format(MessageTemplate, nUnitAssert, " with FluentAssertion equivalent")
-                : string.Format(MessageTemplate, nUnitAssert, expression.GetText());
+            
+            return string.Format(MessageTemplate, nUnitAssert, expression.GetText());
         }
     }
 }
