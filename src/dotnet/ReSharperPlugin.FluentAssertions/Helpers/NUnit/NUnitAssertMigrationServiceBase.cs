@@ -31,9 +31,8 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
         /// <returns>FluentAssertion equivalent expression</returns>
         public IExpression CreateMigrationExpression(IInvocationExpression invocationExpression)
         {
-            // TODO: i think GetText is unnecessary here
             var arguments = invocationExpression.Arguments
-                .Select(x => x.GetText())
+                .Select(x => x.Value)
                 .Cast<object>()
                 .ToArray();
 
