@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using JetBrains.ReSharper.I18n.Services;
+using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 
@@ -38,15 +38,26 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
                 .Cast<object>()
                 .ToArray();
 
-            if (!arguments.Any())
+            if (!arguments.Any()) return invocationExpression;
+
+            /// this shouldn't be necessary. it also probably wouldn't account for global usings for instance
+            /// instead, the expression should be created with the proper arguments
+            /// for instance: factory.CreateExpression("$0.$1(x => x > 0)", arrVariable, enumerableCountMethod);
+            /// but this probably makes the migration services a bit more complicated
+
+            var factory = CSharpElementFactory.GetInstance(invocationExpression);
+
+            var referenceExpression = factory.CreateReferenceExpression("$0.$1", arguments.First(), "Should");
+
+
+            var fullExpression = factory.CreateReferenceExpression("$0().$1", referenceExpression, "NotBeNull");
+            var list = new List<object>
             {
-                return invocationExpression;
-            }
-
-            var expressionFormat =
-                string.Format(GetMigrationExpressionFormat(), arguments.GetExpressionFormatArguments());
-
-            return invocationExpression.CreateExpression(expressionFormat, arguments) ?? invocationExpression;
+                fullExpression
+            };
+            list.AddRange(arguments.Skip(1));
+            var expressionFormat = $"$0({list.GetExpressionFormatArguments()})";
+            return factory.CreateExpression(expressionFormat, list.ToArray());
         }
 
         /// <summary>
@@ -69,7 +80,7 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
         {
             var nUnitAssert = invocationExpression.GetText();
             var expression = CreateMigrationExpression(invocationExpression);
-            
+
             return string.Format(MessageTemplate, nUnitAssert, expression.GetText());
         }
     }
