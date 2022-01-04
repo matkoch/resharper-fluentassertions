@@ -4,7 +4,9 @@ using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.LinqTools;
 using JetBrains.ReSharper.Feature.Services.QuickFixes;
+using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Tree;
+using JetBrains.ReSharper.Resources.Shell;
 using JetBrains.TextControl;
 using JetBrains.Util;
 using ReSharperPlugin.FluentAssertions.Helpers.NUnit;
@@ -19,7 +21,7 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
         private readonly NUnitAssertMigrationHighlighting _highlighting;
         private readonly NUnitAssertMigrationServiceBase _migrationService;
 
-        public NUnitAssertMigrationQuickFix(NUnitAssertMigrationHighlighting highlighting) 
+        public NUnitAssertMigrationQuickFix(NUnitAssertMigrationHighlighting highlighting)
         {
             _highlighting = highlighting;
 
@@ -31,13 +33,18 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
         /// <inheritdoc />
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
-            var invocationExpression = _highlighting.InvocationExpression;
+            using (WriteLockCookie.Create())
+            {
+                var invocationExpression = _highlighting.InvocationExpression;
 
-            // TODO: this shouldn't be necessary. it also probably wouldn't account for global usings for instance
-            // TODO: instead, the expression should be created with the proper arguments
-            // TODO: for instance: factory.CreateExpression("$0.$1(x => x > 0)", arrVariable, enumerableCountMethod);
-            // TODO: but this probably makes the migration services a bit more complicated
-            invocationExpression.ReplaceBy(_migrationService.CreateMigrationExpression(invocationExpression));
+                // TODO: this shouldn't be necessary. it also probably wouldn't account for global usings for instance
+                // TODO: instead, the expression should be created with the proper arguments
+                // TODO: for instance: factory.CreateExpression("$0.$1(x => x > 0)", arrVariable, enumerableCountMethod);
+                // TODO: but this probably makes the migration services a bit more complicated
+
+                ModificationUtil.ReplaceChild(invocationExpression,
+                    _migrationService.CreateMigrationExpression(invocationExpression));
+            }
 
             return null;
         }

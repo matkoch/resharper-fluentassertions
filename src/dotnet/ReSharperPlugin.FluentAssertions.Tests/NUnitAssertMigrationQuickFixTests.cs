@@ -9,7 +9,7 @@ namespace ReSharperPlugin.FluentAssertions.Tests
     {
         protected override string RelativeTestDataPath => nameof(NUnitAssertMigrationQuickFixTests);
 
-        [TestNet50("NUnit/3.12.0", "FluentAssertions/5.10.3")]
+        [TestNet50("NUnit/3.12.0", "FluentAssertions/6.3.0")]
         [TestCaseSource(typeof(TestHelper), nameof(TestHelper.FileNames),
             new object[] {nameof(NUnitAssertMigrationQuickFixTests)})]
         public void ShouldApplyQuickFix(string testName) =>
