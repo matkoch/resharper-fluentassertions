@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
-using JetBrains.ReSharper.Feature.Services.LinqTools;
 using JetBrains.ReSharper.Feature.Services.QuickFixes;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Tree;
@@ -36,12 +35,7 @@ namespace ReSharperPlugin.FluentAssertions.QuickFixes
             using (WriteLockCookie.Create())
             {
                 var invocationExpression = _highlighting.InvocationExpression;
-
-                // TODO: this shouldn't be necessary. it also probably wouldn't account for global usings for instance
-                // TODO: instead, the expression should be created with the proper arguments
-                // TODO: for instance: factory.CreateExpression("$0.$1(x => x > 0)", arrVariable, enumerableCountMethod);
-                // TODO: but this probably makes the migration services a bit more complicated
-
+                
                 ModificationUtil.ReplaceChild(invocationExpression,
                     _migrationService.CreateMigrationExpression(invocationExpression));
             }
