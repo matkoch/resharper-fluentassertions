@@ -41,11 +41,13 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
                 .ToArray();
 
             if (!arguments.Any()) return invocationExpression;
-
+            
             var factory = CSharpElementFactory.GetInstance(invocationExpression);
-
+            
             var shouldMethod = invocationExpression.GetFluentAssertionsPredefinedType()
                 .GetShouldMethod(arguments.First().Type());
+
+            if (shouldMethod is null) return invocationExpression;
 
             var shouldExpression = factory.CreateReferenceExpression("$0.$1", arguments.First(), shouldMethod);
 

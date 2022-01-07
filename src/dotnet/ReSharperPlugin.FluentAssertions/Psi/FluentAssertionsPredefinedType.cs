@@ -42,7 +42,7 @@ namespace ReSharperPlugin.FluentAssertions.Psi
 
         [NotNull] public IDeclaredType Assert => CreateType(ASSERT_FQN);
 
-        [NotNull]
+        [CanBeNull]
         public IMethod GetShouldMethod(IType type)
         {
             var methods = TypeFactory
