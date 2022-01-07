@@ -45,7 +45,6 @@ namespace ReSharperPlugin.FluentAssertions.Analyzers
             var typeMember = qualifier.Reference.Resolve().DeclaredElement as ITypeElement;
             
             return typeMember.IsNUnitAssert();
-
         }
     }
 }
