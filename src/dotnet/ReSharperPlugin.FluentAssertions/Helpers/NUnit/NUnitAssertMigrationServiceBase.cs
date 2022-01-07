@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
+using ReSharperPlugin.FluentAssertions.Psi;
 
 namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
 {
@@ -18,13 +19,13 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
         /// Get migration expression format
         /// </summary>
         /// <returns>Migration expression format</returns>
-        protected abstract string GetMigrationExpressionFormat();
+        protected abstract string GetReplacementMethodName();
 
         /// <summary>
-        /// Get allowed name identifiers
+        /// Get allowed method names to replacement
         /// </summary>
-        /// <returns>Allowed name identifiers</returns>
-        protected abstract List<string> GetAllowedNameIdentifiers();
+        /// <returns>Allowed method names to replacement</returns>
+        protected abstract List<string> GetAllowedMethodNamesToReplacement();
 
         /// <summary>
         /// Create FluentAssertion equivalent expression
@@ -35,28 +36,28 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
         {
             var arguments = invocationExpression.Arguments
                 .Select(x => x.Value)
-                .Cast<object>()
                 .ToArray();
 
             if (!arguments.Any()) return invocationExpression;
 
-            /// this shouldn't be necessary. it also probably wouldn't account for global usings for instance
-            /// instead, the expression should be created with the proper arguments
-            /// for instance: factory.CreateExpression("$0.$1(x => x > 0)", arrVariable, enumerableCountMethod);
-            /// but this probably makes the migration services a bit more complicated
-
             var factory = CSharpElementFactory.GetInstance(invocationExpression);
 
-            var referenceExpression = factory.CreateReferenceExpression("$0.$1", arguments.First(), "Should");
+            var shouldMethod = invocationExpression.GetFluentAssertionsPredefinedType()
+                .GetShouldMethod(arguments.First().Type());
 
+            var shouldExpression = factory.CreateReferenceExpression("$0.$1", arguments.First(), shouldMethod);
 
-            var fullExpression = factory.CreateReferenceExpression("$0().$1", referenceExpression, "NotBeNull");
+            var replacementMethodExpression =
+                factory.CreateReferenceExpression("$0().$1", shouldExpression, GetReplacementMethodName());
+
             var list = new List<object>
             {
-                fullExpression
+                replacementMethodExpression
             };
+
             list.AddRange(arguments.Skip(1));
             var expressionFormat = $"$0({list.GetExpressionFormatArguments()})";
+
             return factory.CreateExpression(expressionFormat, list.ToArray());
         }
 
@@ -68,14 +69,14 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
         public bool CanMigrate(IInvocationExpression invocationExpression)
         {
             return invocationExpression.InvokedExpression is IReferenceExpression invokedExpression &&
-                   GetAllowedNameIdentifiers().Contains(invokedExpression.NameIdentifier.Name);
+                   GetAllowedMethodNamesToReplacement().Contains(invokedExpression.NameIdentifier.Name);
         }
 
         /// <summary>
-        /// 
+        /// Get text message for quickfix description
         /// </summary>
-        /// <param name="invocationExpression"></param>
-        /// <returns></returns>
+        /// <param name="invocationExpression">Replaced expression</param>
+        /// <returns>Text message for quickfix description</returns>
         public string GetTextMessage(IInvocationExpression invocationExpression)
         {
             var nUnitAssert = invocationExpression.GetText();

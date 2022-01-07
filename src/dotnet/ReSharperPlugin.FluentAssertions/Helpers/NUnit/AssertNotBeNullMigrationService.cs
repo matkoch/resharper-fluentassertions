@@ -8,13 +8,13 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
     public class AssertNotBeNullMigrationService : NUnitAssertMigrationServiceBase
     {
         /// <inheritdoc />
-        protected override string GetMigrationExpressionFormat()
+        protected override string GetReplacementMethodName()
         {
-            return "$0.Should().NotBeNull({0})";
+            return "NotBeNull";
         }
 
         /// <inheritdoc />
-        protected override List<string> GetAllowedNameIdentifiers()
+        protected override List<string> GetAllowedMethodNamesToReplacement()
         {
             return new List<string>
             {
