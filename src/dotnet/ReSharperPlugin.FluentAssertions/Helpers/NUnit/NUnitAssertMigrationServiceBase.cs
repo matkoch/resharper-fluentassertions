@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
+using JetBrains.ReSharper.Psi.Util;
 using ReSharperPlugin.FluentAssertions.Psi;
 
 namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
@@ -47,8 +49,12 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
 
             var shouldExpression = factory.CreateReferenceExpression("$0.$1", arguments.First(), shouldMethod);
 
+            var replacementMethod = GetReplacementMethod(shouldMethod);
+
+            if (replacementMethod is null) return invocationExpression;
+
             var replacementMethodExpression =
-                factory.CreateReferenceExpression("$0().$1", shouldExpression, GetReplacementMethodName());
+                factory.CreateReferenceExpression("$0().$1", shouldExpression, replacementMethod);
 
             var list = new List<object>
             {
@@ -83,6 +89,21 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
             var expression = CreateMigrationExpression(invocationExpression);
 
             return string.Format(MessageTemplate, nUnitAssert, expression.GetText());
+        }
+
+        private IMethod GetReplacementMethod(IParametersOwner shouldMethod)
+        {
+            var returnType = shouldMethod.ReturnType.GetTypeElement();
+
+            var result = returnType
+                ?.Methods
+                .FirstOrDefault(x => x.ShortName == GetReplacementMethodName());
+
+            if (result != null) return result;
+
+            return returnType.GetSuperTypesWithoutCircularDependent()
+                .SelectMany(x => x.GetTypeElement()?.Methods)
+                .FirstOrDefault(x => x.ShortName == GetReplacementMethodName());
         }
     }
 }
