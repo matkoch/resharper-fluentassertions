@@ -23,7 +23,7 @@ namespace ReSharperPlugin.FluentAssertions.Highlightings
         public DocumentRange CalculateRange() => InvocationExpression.GetDocumentRange();
 
         /// <inheritdoc />
-        public string ToolTip => "NUnit assertion can be replaced with FluentAssertion equivalents";
+        public string ToolTip => "NUnit assertion can be replaced with FluentAssertions equivalents";
 
         /// <inheritdoc />
         public string ErrorStripeToolTip => ToolTip;
