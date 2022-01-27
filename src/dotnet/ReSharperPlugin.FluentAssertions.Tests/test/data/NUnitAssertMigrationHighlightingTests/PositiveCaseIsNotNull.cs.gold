@@ -15,4 +15,4 @@ public class ExampleTests
     }
 }
 ---------------------------------------------------------
-(0): ReSharper Warning: NUnit assertion can be replaced with FluentAssertion equivalents
+(0): ReSharper Warning: NUnit assertion can be replaced with FluentAssertions equivalents
