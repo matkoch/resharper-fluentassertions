@@ -50,8 +50,11 @@ namespace ReSharperPlugin.FluentAssertions.Psi
                 .GetTypeElement().Methods
                 .Where(x => x.ShortName == "Should");
 
-            return methods
-                .FirstOrDefault(x => x.Parameters.Any(t => t.Type.Equals(type)));
+            var objectType =
+                TypeFactory.CreateTypeByCLRName(PredefinedType.OBJECT_FQN, NullableAnnotation.Unknown, Module);
+
+            return methods.FirstOrDefault(
+                x => x.Parameters.Any(t => t.Type.Equals(type.IsSimplePredefined() ? type : objectType)));
         }
 
         [CanBeNull]
