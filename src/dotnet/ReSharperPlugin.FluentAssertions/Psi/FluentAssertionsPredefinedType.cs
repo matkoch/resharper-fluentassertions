@@ -54,7 +54,7 @@ namespace ReSharperPlugin.FluentAssertions.Psi
                 TypeFactory.CreateTypeByCLRName(PredefinedType.OBJECT_FQN, NullableAnnotation.Unknown, Module);
 
             return methods.FirstOrDefault(
-                x => x.Parameters.Any(t => t.Type.Equals(type.IsSimplePredefined() ? type : objectType)));
+                x => x.Parameters.Any(t => t.Type.Equals(type.IsSimplePredefined() || type.IsNullable() ? type : objectType)));
         }
 
         [CanBeNull]
