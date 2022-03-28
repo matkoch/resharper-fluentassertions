@@ -9,9 +9,9 @@ public class ExampleTests
         // arrange
 
         // act
-        string result = null;
+        string result = "qwerty";
         
         // assert
-        {caret}result.Should().NotBeNull("Format message with param1: {0} and param2: {1}", true, false);
+        {caret}result.Should().Be("qwerty", "Format message with param1: {0} and param2: {1}", true, false);
     }
 }

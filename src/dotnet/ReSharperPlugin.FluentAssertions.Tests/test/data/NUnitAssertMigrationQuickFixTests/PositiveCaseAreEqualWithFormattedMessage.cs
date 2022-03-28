@@ -8,9 +8,9 @@ public class ExampleTests
         // arrange
 
         // act
-        string result = null;
+        string result = "qwerty";
         
         // assert
-        {caret}Assert.NotNull(result, "Format message with param1: {0} and param2: {1}", true, false);
+        {caret}Assert.AreEqual("qwerty", result, "Format message with param1: {0} and param2: {1}", true, false);
     }
 }
