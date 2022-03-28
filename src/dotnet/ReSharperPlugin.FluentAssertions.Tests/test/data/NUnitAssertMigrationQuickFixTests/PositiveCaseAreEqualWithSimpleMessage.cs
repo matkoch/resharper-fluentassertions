@@ -8,9 +8,9 @@ public class ExampleTests
         // arrange
 
         // act
-        string result = null;
+        string result = "qwerty";
         
         // assert
-        {caret}Assert.AreEqual(result, "qwerty", "Simple message");
+        {caret}Assert.AreEqual("qwerty", result, "Simple message");
     }
 }

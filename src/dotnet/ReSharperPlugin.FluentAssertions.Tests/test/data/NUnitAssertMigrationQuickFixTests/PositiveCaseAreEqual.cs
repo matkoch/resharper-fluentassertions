@@ -11,6 +11,6 @@ public class ExampleTests
         string result = "qwerty";
         
         // assert
-        {caret}Assert.AreEqual(result, "qwerty");
+        {caret}Assert.AreEqual("qwerty", result);
     }
 }

@@ -9,7 +9,7 @@ public class ExampleTests
         // arrange
 
         // act
-        string result = null;
+        string result = "qwerty";
         
         // assert
         {caret}result.Should().Be("qwerty", "Simple message");
