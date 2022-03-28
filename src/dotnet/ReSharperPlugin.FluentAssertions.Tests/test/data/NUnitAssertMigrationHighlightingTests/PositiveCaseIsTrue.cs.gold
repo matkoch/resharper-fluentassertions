@@ -1,0 +1,18 @@
+using NUnit.Framework;
+
+public class ExampleTests
+{
+    [Test]
+    public void Test()
+    {
+        // arrange
+
+        // act
+        bool result = false;
+        
+        // assert
+        |Assert.IsTrue(result)|(0);
+    }
+}
+---------------------------------------------------------
+(0): ReSharper Warning: NUnit assertion can be replaced with FluentAssertions equivalents
