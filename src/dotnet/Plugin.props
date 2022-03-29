@@ -1,19 +1,20 @@
 ﻿<Project>
 
-  <PropertyGroup>
-    <SdkVersion>2022.1.0-eap03</SdkVersion>
+    <PropertyGroup>
+        <SdkVersion>2022.1.0-eap07</SdkVersion>
 
-    <Title>FluentAssertions</Title>
-    <Description>Support plugin for FluentAssertions. A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
-      BDD-style unit tests.</Description>
+        <Title>FluentAssertions</Title>
+        <Description>Support plugin for FluentAssertions. A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
+            BDD-style unit tests.
+        </Description>
 
-    <Authors>Matthias Koch</Authors>
-    <Copyright>Copyright $([System.DateTime]::Now.Year) Matthias Koch</Copyright>
-    <PackageTags>fluent assertions tdd bdd testing resharper plugin</PackageTags>
+        <Authors>Matthias Koch</Authors>
+        <Copyright>Copyright $([System.DateTime]::Now.Year) Matthias Koch</Copyright>
+        <PackageTags>fluent assertions tdd bdd testing resharper plugin</PackageTags>
 
-    <PackageProjectUrl>https://github.com/matkoch/resharper-fluentassertions</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/matkoch/resharper-fluentassertions/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/fluentassertions/fluentassertions/master/Src/FluentAssertions.png</PackageIconUrl>
-  </PropertyGroup>
+        <PackageProjectUrl>https://github.com/matkoch/resharper-fluentassertions</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/matkoch/resharper-fluentassertions/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageIconUrl>https://raw.githubusercontent.com/fluentassertions/fluentassertions/master/Src/FluentAssertions.png</PackageIconUrl>
+    </PropertyGroup>
 
 </Project>
