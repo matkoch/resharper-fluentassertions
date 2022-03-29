@@ -41,15 +41,15 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
                 .ToArray();
 
             if (!arguments.Any()) return invocationExpression;
-            
+
             var factory = CSharpElementFactory.GetInstance(invocationExpression);
-            
+            var actualValue = GetActualValue(arguments);
             var shouldMethod = invocationExpression.GetFluentAssertionsPredefinedType()
-                .GetShouldMethod(arguments.First().Type());
+                .GetShouldMethod(actualValue.Type());
 
             if (shouldMethod is null) return invocationExpression;
 
-            var shouldExpression = factory.CreateReferenceExpression("$0.$1", arguments.First(), shouldMethod);
+            var shouldExpression = factory.CreateReferenceExpression("$0.$1", actualValue, shouldMethod);
 
             var replacementMethod = GetReplacementMethod(shouldMethod);
 
@@ -63,7 +63,18 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
                 replacementMethodExpression
             };
 
-            list.AddRange(arguments.Skip(1));
+            var expectedValue = GetExpectedValue(arguments);
+            if (expectedValue != null)
+            {
+                list.Add(expectedValue);
+
+                list.AddRange(arguments.Skip(2));
+            }
+            else
+            {
+                list.AddRange(arguments.Skip(1));
+            }
+
             var expressionFormat = $"$0({list.GetExpressionFormatArguments()})";
 
             return factory.CreateExpression(expressionFormat, list.ToArray());
@@ -91,6 +102,26 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
             var expression = CreateMigrationExpression(invocationExpression);
 
             return string.Format(MessageTemplate, nUnitAssert, expression.GetText());
+        }
+
+        /// <summary>
+        /// Get actual value for generate equivalent expression
+        /// </summary>
+        /// <param name="arguments">Assert invocation expression arguments</param>
+        /// <returns>Actual argument expression</returns>
+        protected virtual ICSharpExpression GetActualValue(IEnumerable<ICSharpExpression> arguments)
+        {
+            return arguments.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Get expected value for generate equivalent expression
+        /// </summary>
+        /// <param name="arguments">Assert invocation expression arguments</param>
+        /// <returns>Expected argument expression</returns>
+        protected virtual ICSharpExpression GetExpectedValue(IEnumerable<ICSharpExpression> arguments)
+        {
+            return null;
         }
 
         private IMethod GetReplacementMethod(IParametersOwner shouldMethod)
