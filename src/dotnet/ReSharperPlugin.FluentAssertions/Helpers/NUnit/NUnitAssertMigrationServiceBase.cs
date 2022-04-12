@@ -39,35 +39,26 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
             var arguments = invocationExpression.Arguments
                 .Select(x => x.Value)
                 .ToArray();
-
-            if (!arguments.Any()) return invocationExpression;
+            if (!arguments.Any())
+                return invocationExpression;
 
             var factory = CSharpElementFactory.GetInstance(invocationExpression);
             var actualValue = GetActualValue(arguments);
-            var shouldMethod = invocationExpression.GetFluentAssertionsPredefinedType()
-                .GetShouldMethod(actualValue.Type());
-
-            if (shouldMethod is null) return invocationExpression;
+            var shouldMethod = invocationExpression.GetFluentAssertionsPredefinedType().GetShouldMethod(actualValue.Type());
+            if (shouldMethod is null)
+                return invocationExpression;
 
             var shouldExpression = factory.CreateReferenceExpression("$0.$1", actualValue, shouldMethod);
-
             var replacementMethod = GetReplacementMethod(shouldMethod);
+            if (replacementMethod is null)
+                return invocationExpression;
 
-            if (replacementMethod is null) return invocationExpression;
-
-            var replacementMethodExpression =
-                factory.CreateReferenceExpression("$0().$1", shouldExpression, replacementMethod);
-
-            var list = new List<object>
-            {
-                replacementMethodExpression
-            };
-
+            var replacementMethodExpression = factory.CreateReferenceExpression("$0().$1", shouldExpression, replacementMethod);
+            var list = new List<object> { replacementMethodExpression };
             var expectedValue = GetExpectedValue(arguments);
             if (expectedValue != null)
             {
                 list.Add(expectedValue);
-
                 list.AddRange(arguments.Skip(2));
             }
             else
@@ -76,7 +67,6 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
             }
 
             var expressionFormat = $"$0({list.GetExpressionFormatArguments()})";
-
             return factory.CreateExpression(expressionFormat, list.ToArray());
         }
 
