@@ -18,10 +18,7 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
         /// <inheritdoc />
         protected override List<string> GetAllowedMethodNamesToReplacement()
         {
-            return new List<string>
-            {
-                "LessOrEqual"
-            };
+            return new List<string> { "LessOrEqual" };
         }
 
         protected override ICSharpExpression GetActualValue(IEnumerable<ICSharpExpression> arguments)
