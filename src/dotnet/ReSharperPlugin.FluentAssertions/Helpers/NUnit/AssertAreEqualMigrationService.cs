@@ -13,10 +13,7 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
         protected override string GetReplacementMethodName() => "Be";
 
         /// <inheritdoc />
-        protected override List<string> GetAllowedMethodNamesToReplacement() => new List<string>
-        {
-            "AreEqual"
-        };
+        protected override List<string> GetAllowedMethodNamesToReplacement() => new List<string> { "AreEqual" };
 
         /// <inheritdoc />
         protected override ICSharpExpression GetActualValue(IEnumerable<ICSharpExpression> arguments)
