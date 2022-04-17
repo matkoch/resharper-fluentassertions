@@ -59,7 +59,7 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
             if (expectedValue != null)
             {
                 list.Add(expectedValue);
-                list.AddRange(arguments.Skip(2));
+                list.AddRange(arguments.Skip(GetExpectedValueSkipArgumentsCount()));
             }
             else
             {
@@ -112,6 +112,15 @@ namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
         protected virtual ICSharpExpression GetExpectedValue(IEnumerable<ICSharpExpression> arguments)
         {
             return null;
+        }
+
+        /// <summary>
+        /// Get expected value for generate equivalent expression
+        /// </summary>
+        /// <returns>Expected argument expression</returns>
+        protected virtual int GetExpectedValueSkipArgumentsCount()
+        {
+            return 2;
         }
 
         private IMethod GetReplacementMethod(IParametersOwner shouldMethod)
