@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  CI:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install and setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0'
+    - name: Run .NET tests
+      run: dotnet test
+    - name: Build Rider and ReSharper plugin
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: buildPlugin
