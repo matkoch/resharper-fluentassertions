@@ -1,0 +1,26 @@
+name: Release
+
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - '*' # Push events to matching everything, e. g. "v1" or "2021.2.2.1"
+
+jobs:
+  Release:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install and setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0'
+    - name: Run .NET tests
+      run: dotnet test
+    - name: Build and publish Rider and ReSharper plugin
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: publishPlugin -PPublishToken=${{ secrets.JETBRAINSPUBLISHTOKEN }}
