@@ -1,0 +1,23 @@
+using FluentAssertions;
+using NUnit.Framework;
+
+public class ExampleTests
+{
+    [Test]
+    public void Test()
+    {
+        // arrange
+
+        // act
+        var result = Lang.En;
+        
+        // assert
+        {caret}result.Should().Be(Lang.En);
+    }
+
+    public enum Lang
+    {
+        En,
+        Ru
+    }
+}
