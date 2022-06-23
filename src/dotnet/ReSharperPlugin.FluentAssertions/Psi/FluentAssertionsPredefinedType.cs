@@ -12,9 +12,6 @@ namespace ReSharperPlugin.FluentAssertions.Psi
     {
         private static readonly Dictionary<IClrTypeName, int> s_typeNameIndex;
 
-        public static readonly IClrTypeName ASSERT_FQN =
-            new ClrTypeName(nameof(NUnit) + "." + nameof(NUnit.Framework) + "." + nameof(NUnit.Framework.Assert));
-
         private static readonly IClrTypeName SHOULD_FQN =
             new ClrTypeName(nameof(FluentAssertions) + ".AssertionExtensions");
 
@@ -40,21 +37,22 @@ namespace ReSharperPlugin.FluentAssertions.Psi
 
         [NotNull] public IPsiModule Module { get; }
 
-        [NotNull] public IDeclaredType Assert => CreateType(ASSERT_FQN);
 
         [CanBeNull]
         public IMethod GetShouldMethod(IType type)
         {
             var methods = TypeFactory
                 .CreateTypeByCLRName(SHOULD_FQN, NullableAnnotation.Unknown, Module)
-                .GetTypeElement().Methods
+                .GetTypeElement()
+                ?.Methods
                 .Where(x => x.ShortName == "Should");
 
             var objectType =
                 TypeFactory.CreateTypeByCLRName(PredefinedType.OBJECT_FQN, NullableAnnotation.Unknown, Module);
 
             return methods.FirstOrDefault(
-                x => x.Parameters.Any(t => t.Type.Equals(type.IsSimplePredefined() || type.IsNullable() ? type : objectType)));
+                x => x.Parameters.Any(t =>
+                    t.Type.Equals(type.IsSimplePredefined() || type.IsNullable() ? type : objectType)));
         }
 
         [CanBeNull]

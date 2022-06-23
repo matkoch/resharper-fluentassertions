@@ -1,3 +1,4 @@
+using System.Linq;
 using JetBrains.Annotations;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
@@ -84,8 +85,8 @@ namespace ReSharperPlugin.FluentAssertions.Psi
             if (element == null)
                 return false;
 
-            var type = element.Module.GetFluentAssertionsPredefinedType().Assert.GetTypeElement();
-            return element.IsDescendantOf(type);
+            var nUnitTypes = element.Module.GetNUnitPredefinedType().PredefinedNUnitTypes;
+            return nUnitTypes.Any(x => element.IsDescendantOf(x.GetTypeElement()));
         }
     }
 }
