@@ -46,7 +46,7 @@ namespace ReSharperPlugin.FluentAssertions.Psi
         public IMethod GetShouldMethod(IType type)
         {
             var methods = TypeFactory
-                .CreateTypeByCLRName(SHOULD_FQN, Module)
+                .CreateTypeByCLRName(SHOULD_FQN, NullableAnnotation.Unknown, Module)
                 .GetTypeElement().Methods
                 .Where(x => x.ShortName == "Should");
 
@@ -72,7 +72,7 @@ namespace ReSharperPlugin.FluentAssertions.Psi
                 lock (_types)
                 {
                     if (_types[index] == null)
-                        _types[index] = TypeFactory.CreateTypeByCLRName(clrName, Module);
+                        _types[index] = TypeFactory.CreateTypeByCLRName(clrName, NullableAnnotation.Unknown, Module);
                 }
             }
 
