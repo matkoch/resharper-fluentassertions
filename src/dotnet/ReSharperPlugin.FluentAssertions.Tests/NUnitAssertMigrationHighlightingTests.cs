@@ -20,7 +20,7 @@ namespace ReSharperPlugin.FluentAssertions.Tests
             return highlighting is NUnitAssertMigrationHighlighting;
         }
 
-        [TestNet60("NUnit/3.12.0", "FluentAssertions/6.5.1")]
+        [TestNet60("NUnit/3.12.0", "FluentAssertions/6.7.0")]
         [TestCaseSource(typeof(TestHelper), nameof(TestHelper.FilteredFileNames),
             new object[]
             {
@@ -37,7 +37,7 @@ namespace ReSharperPlugin.FluentAssertions.Tests
         [TestCase("NegativeCase")]
         public void ShouldNotBeDetectHighlighting(string testName) => DoOneTest(testName);
 
-        [TestNet60("FluentAssertions/6.5.1")]
+        [TestNet60("FluentAssertions/6.7.0")]
         [TestCase("PositiveCaseWithoutReferences")]
         public void ShouldNotBeDetectHighlightingWhenProjectHasNoReferenceToNUnit(string testName) =>
             DoOneTest(testName);
