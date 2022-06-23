@@ -76,10 +76,5 @@ namespace ReSharperPlugin.FluentAssertions.Psi
 
             return _types[index];
         }
-
-        private IDeclaredType CreateType([NotNull] IClrTypeName clrName)
-        {
-            return CreateType(s_typeNameIndex[clrName], clrName);
-        }
     }
 }
