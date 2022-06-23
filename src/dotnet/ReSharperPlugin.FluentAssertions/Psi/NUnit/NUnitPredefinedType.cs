@@ -14,6 +14,11 @@ namespace ReSharperPlugin.FluentAssertions.Psi;
 public class NUnitPredefinedType
 {
     /// <summary>
+    /// NUnit Assembly Name
+    /// </summary>
+    public const string AssemblyName = nameof(NUnit) + "." + nameof(NUnit.Framework);
+
+    /// <summary>
     /// Collection predefined NUnit types
     /// </summary>
     [NotNull] public readonly HashSet<IDeclaredType> PredefinedNUnitTypes =
