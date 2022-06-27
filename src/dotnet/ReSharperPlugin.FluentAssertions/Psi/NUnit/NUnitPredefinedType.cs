@@ -22,7 +22,8 @@ public class NUnitPredefinedType
     /// Collection predefined NUnit types
     /// </summary>
     [NotNull] public readonly HashSet<IDeclaredType> PredefinedNUnitTypes =
-        new(typeof(NUnitPredefinedType).GetFields().Count(x => x.IsStatic));
+        new(typeof(NUnitPredefinedType).GetFields()
+            .Count(x => x.IsStatic && typeof(IClrTypeName).IsAssignableFrom(x.FieldType)));
 
     /// <summary>
     /// NUnit.Framework.Assert
