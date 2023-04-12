@@ -17,6 +17,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'fluentassertions'
+rootProject.name = 'ReSharperPlugin.FluentAssertions'
 
 include ':protocol'
