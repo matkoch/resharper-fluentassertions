@@ -1,7 +1,7 @@
 ﻿<Project>
 
   <PropertyGroup>
-    <SdkVersion>2024.1.2</SdkVersion>
+    <SdkVersion>2024.2.0-eap02</SdkVersion>
 
     <Title>FluentAssertions</Title>
     <Description>Support plugin for FluentAssertions. A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
