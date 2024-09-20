@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using JetBrains.Application.Parts;
 using JetBrains.ProjectModel;
 
 namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
 {
     /// <inheritdoc />
-    [SolutionComponent]
+    [SolutionComponent(Instantiation.DemandAnyThreadSafe)]
     public class AssertBeTrueMigrationService : NUnitAssertMigrationServiceBase
     {
         /// <inheritdoc />

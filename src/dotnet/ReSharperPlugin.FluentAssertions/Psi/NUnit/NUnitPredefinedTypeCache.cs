@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using JetBrains.Application.Parts;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Caches;
 using JetBrains.ReSharper.Psi.Modules;
@@ -11,7 +12,7 @@ namespace ReSharperPlugin.FluentAssertions.Psi;
 /// <remarks>
 /// Based on <see cref="FluentAssertionsPredefinedType"/>
 /// </remarks>
-[PsiComponent]
+[PsiComponent(Instantiation.DemandAnyThreadSafe)]
 internal class NUnitPredefinedTypeCache : InvalidatingPsiCache
 {
     private readonly ConcurrentDictionary<IPsiModule, NUnitPredefinedType> _predefinedTypes = new();
