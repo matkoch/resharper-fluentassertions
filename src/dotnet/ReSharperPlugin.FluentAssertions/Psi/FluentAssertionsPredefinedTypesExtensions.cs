@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
+using JetBrains.Application.Parts;
 using JetBrains.Diagnostics;
 using JetBrains.Metadata.Reader.API;
 using JetBrains.ReSharper.Psi;
@@ -15,14 +16,13 @@ namespace ReSharperPlugin.FluentAssertions.Psi
     public static class FluentAssertionsPredefinedTypesExtensions
     {
         private static readonly Key<FluentAssertionsPredefinedTypeCache> s_typeCacheKey =
-            new Key<FluentAssertionsPredefinedTypeCache>(nameof(FluentAssertionsPredefinedTypeCache));
+            new(nameof(FluentAssertionsPredefinedTypeCache));
 
         public static FluentAssertionsPredefinedType GetFluentAssertionsPredefinedType([NotNull] this IPsiModule module)
         {
             var predefinedTypeCache = module.GetOrCreateDataNoLock(
                 s_typeCacheKey,
-                module,
-                x => x.GetPsiServices().GetComponent<FluentAssertionsPredefinedTypeCache>());
+                module, static x => x.GetPsiServices().GetComponent<FluentAssertionsPredefinedTypeCache>());
 
             return predefinedTypeCache.GetOrCreateFluentAssertionsPredefinedType(module);
         }
@@ -37,11 +37,8 @@ namespace ReSharperPlugin.FluentAssertions.Psi
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsPredefinedType([CanBeNull] IType type, [NotNull] IClrTypeName clrName)
         {
-            var predefinedCandidate = type as IDeclaredType;
-            if (predefinedCandidate == null)
-                return false;
-
-            return IsPredefinedTypeElement(predefinedCandidate.GetTypeElement(), clrName);
+            return type is IDeclaredType predefinedCandidate &&
+                   IsPredefinedTypeElement(predefinedCandidate.GetTypeElement(), clrName);
         }
 
         [Pure]
@@ -60,11 +57,10 @@ namespace ReSharperPlugin.FluentAssertions.Psi
             return DeclaredElementEqualityComparer.TypeElementComparer.Equals(typeElement, predefinedTypeElement);
         }
 
-        [PsiComponent]
+        [PsiComponent(Instantiation.DemandAnyThreadSafe)]
         internal class FluentAssertionsPredefinedTypeCache : InvalidatingPsiCache
         {
-            private readonly ConcurrentDictionary<IPsiModule, FluentAssertionsPredefinedType> _predefinedTypes =
-                new ConcurrentDictionary<IPsiModule, FluentAssertionsPredefinedType>();
+            private readonly ConcurrentDictionary<IPsiModule, FluentAssertionsPredefinedType> _predefinedTypes = new();
 
             protected override void InvalidateOnPhysicalChange(PsiChangedElementType elementType)
             {

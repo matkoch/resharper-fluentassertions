@@ -6,6 +6,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## vNext
 
+## [2024.3.0] / 2024-11-13
+- Added support for ReSharper and Rider 2024.3
+
+## 2024.2.0
+- Added support for ReSharper and Rider 2024.2
+
+## 2024.1.0
+- Added support for ReSharper and Rider 2024.1
+
+## 2023.3.0
+- Added support for ReSharper and Rider 2023.3
+
+## 2023.2.0
+- Added support for ReSharper and Rider 2023.2
+
+## 2023.1.0
+- Added support for ReSharper and Rider 2023.1
+
+## 2022.3.0
+- Added support for ReSharper and Rider 2022.3
+
+## 2022.2.0
+- Added support for ReSharper and Rider 2022.2
+- Fixed highlighting to have configurable severity
+
 ## 2022.1.0
 - Added support for ReSharper and Rider 2022.1
 

@@ -86,7 +86,10 @@ namespace ReSharperPlugin.FluentAssertions
         // }
     }
 
-    [MacroDefinition("getAssertionObject", LongDescription = "Guess assertion object", ShortDescription = "Guess assertion object")]
+    [MacroDefinition("getAssertionObject",
+        ResourceType = typeof(Resources),
+        DescriptionResourceName = nameof(Resources.LastResultMacroDefDescription),
+        LongDescriptionResourceName = nameof(Resources.LastResultMacroDefDescription))]
     public class LastResultMacroDef : SimpleMacroDefinition
     {
         // public override ParameterInfo[] Parameters => new ParameterInfo[1]

@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Application.Parts;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 
 namespace ReSharperPlugin.FluentAssertions.Helpers.NUnit
 {
     /// <inheritdoc />
-    [SolutionComponent]
+    [SolutionComponent(Instantiation.DemandAnyThreadSafe)]
     public class AssertLessOrEqualMigrationService : NUnitAssertMigrationServiceBase
     {
         /// <inheritdoc />
