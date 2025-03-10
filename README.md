@@ -12,3 +12,17 @@
 - [Postfix templates](https://www.jetbrains.com/help/rider/Postfix_Templates.html) `.result` and `.testee` for easier standardization of tests
 - [Live template](https://www.jetbrains.com/help/rider/Using_Live_Templates.html) `should` to introduce a new assertion for either `result` or the last asserted expression
 - [Quick-fixes](https://www.jetbrains.com/help/rider/Code_Analysis__Quick-Fixes.html) to convert NUnit assertions to FluentAssertions
+
+
+## Building Locally
+
+- Please go through https://github.com/JetBrains/resharper-rider-plugin
+- Once initial setup is done, plugin can be built using:
+
+  ```bash
+  ./gradlew :buildPlugin
+  ```
+
+- Other useful scripts:
+  - `./gradlew :runIde` - run plugin inside sandbox (IDE version specified by `gradle.properties`)
+  - `./gradlew :publishPlugin` - build and publish plugin to JetBrains Marketplace
