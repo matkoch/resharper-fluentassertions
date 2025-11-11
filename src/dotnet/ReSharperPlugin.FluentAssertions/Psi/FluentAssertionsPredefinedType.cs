@@ -5,6 +5,7 @@ using JetBrains.Metadata.Reader.API;
 using JetBrains.Metadata.Reader.Impl;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Modules;
+using JetBrains.ReSharper.Psi.Util;
 
 namespace ReSharperPlugin.FluentAssertions.Psi
 {
@@ -14,6 +15,9 @@ namespace ReSharperPlugin.FluentAssertions.Psi
 
         private static readonly IClrTypeName SHOULD_FQN =
             new ClrTypeName(nameof(FluentAssertions) + ".AssertionExtensions");
+
+        private static readonly IClrTypeName ENUM_SHOULD_FQN =
+            new ClrTypeName(nameof(FluentAssertions) + ".EnumAssertionsExtensions");
 
         static FluentAssertionsPredefinedType()
         {
@@ -41,11 +45,26 @@ namespace ReSharperPlugin.FluentAssertions.Psi
         [CanBeNull]
         public IMethod GetShouldMethod(IType type)
         {
+            if (type.IsEnumType() || type.IsNullable() && type.Unlift().IsEnumType())
+            {
+                return TypeFactory
+                    .CreateTypeByCLRName(ENUM_SHOULD_FQN, NullableAnnotation.Unknown, Module)
+                    .GetTypeElement()
+                    ?.Methods
+                    .Where(x => x.ShortName == "Should")
+                    .FirstOrDefault(x => x.Parameters.Any(t => !type.IsNullable() || t.Type.IsNullable()));
+            }
+
             var methods = TypeFactory
                 .CreateTypeByCLRName(SHOULD_FQN, NullableAnnotation.Unknown, Module)
                 .GetTypeElement()
                 ?.Methods
                 .Where(x => x.ShortName == "Should");
+
+            if (methods is null)
+            {
+                return null;
+            }
 
             var objectType =
                 TypeFactory.CreateTypeByCLRName(PredefinedType.OBJECT_FQN, NullableAnnotation.Unknown, Module);
